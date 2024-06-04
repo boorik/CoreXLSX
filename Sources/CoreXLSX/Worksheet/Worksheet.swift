@@ -248,10 +248,10 @@ public struct MergeCells: Codable {
 
 public struct MergeCell: Codable {
   /// A reference of format "A1:F1"
-  public let reference: String
+  public let reference: ReferenceRange
 
   @available(*, deprecated, renamed: "reference")
-  public var ref: String {
+  public var ref: ReferenceRange {
     reference
   }
 
