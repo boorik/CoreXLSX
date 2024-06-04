@@ -20,4 +20,16 @@ final class ReferenceRangeTests: XCTestCase {
     XCTAssertFalse(sut.contains(reference: CellReference(ColumnReference("D")!, 8)))
     XCTAssertFalse(sut.contains(reference: CellReference(ColumnReference("A")!, 2)))
   }
+
+  func testMatchingColumnsAndRows() throws {
+    let sut = try ReferenceRange(string: "A3:C8")
+    let res = sut.getMatchingColumnsAndRows()
+    XCTAssertEqual(res.0, [
+      ColumnReference("A"),
+      ColumnReference("B"),
+      ColumnReference("C")
+    ])
+
+    XCTAssertEqual(res.1, [3, 4, 5, 6, 7, 8])
+  }
 }

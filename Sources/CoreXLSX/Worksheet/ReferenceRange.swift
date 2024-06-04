@@ -57,11 +57,21 @@ extension ReferenceRange {
   }
 }
 
-extension ReferenceRange {
+public extension ReferenceRange {
   func contains(reference: CellReference) -> Bool {
     reference.column >= start.column &&
     reference.column <= end.column &&
     reference.row >= start.row &&
     reference.row <= end.row
+  }
+
+  func getMatchingColumnsAndRows() -> ([ColumnReference], [UInt]) {
+    let columnCount = start.column.distance(to: end.column)
+    let columns: [ColumnReference] = (0...columnCount).map { index in
+      start.column.advanced(by: index)
+    }
+
+    let rows:[UInt] = Array(start.row...end.row)
+    return (columns, rows)
   }
 }

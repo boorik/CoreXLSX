@@ -18,7 +18,7 @@
 public struct CellReference {
   public let column: ColumnReference
   public let row: UInt
-  
+
   public init(_ column: ColumnReference, _ row: UInt) {
     self.column = column
     self.row = row
@@ -41,7 +41,7 @@ extension CellReference: Decodable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let reference = try container.decode(String.self)
-    
+
     try self.init(string: reference)
   }
 }
@@ -55,19 +55,19 @@ public extension CellReference {
     }) else {
       throw CoreXLSXError.invalidCellReference
     }
-    
+
     let separatorIndex = string.index(after: lastLetterIndex)
-    
+
     guard let column =
             ColumnReference(string.prefix(upTo: separatorIndex))
     else {
       throw CoreXLSXError.invalidCellReference
     }
-    
+
     guard let cell = UInt(string.suffix(from: separatorIndex)) else {
       throw CoreXLSXError.invalidCellReference
     }
-    
+
     self.init(column, cell)
   }
 }
