@@ -21,6 +21,8 @@ import XCTest
 final class CellQueriesTests: XCTestCase {
   // swiftlint:disable:next function_body_length
   func testDates() throws {
+    setenv("TZ", "America/New_York", 1)
+    CFTimeZoneResetSystem()
     let cells = [
       Cell(
         reference: CellReference(ColumnReference("I")!, 2),
@@ -107,7 +109,7 @@ final class CellQueriesTests: XCTestCase {
     XCTAssertEqual(
       cells.compactMap { $0.dateValue?.timeIntervalSince1970 },
       [-2_209_127_400.0, -2_209_114_800.0, -2_209_107_600.0, -2_209_091_400.0, -2_209_107_600.0,
-       -2_209_096_800.0, -2_209_132_800.0, -2_209_122_000.0, -2_209_132_800.0, -2_209_122_000.0]
+        -2_209_096_800.0, -2_209_132_800.0, -2_209_122_000.0, -2_209_132_800.0, -2_209_122_000.0]
     )
   }
 }
