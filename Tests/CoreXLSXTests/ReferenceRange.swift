@@ -24,12 +24,12 @@ final class ReferenceRangeTests: XCTestCase {
   func testMatchingColumnsAndRows() throws {
     let sut = try ReferenceRange(string: "A3:C8")
     let res = sut.getMatchingColumnsAndRows()
-    XCTAssertEqual(res.0, [
+    XCTAssertEqual(res.columns, [
       ColumnReference("A"),
       ColumnReference("B"),
       ColumnReference("C")
     ])
 
-    XCTAssertEqual(res.1, [3, 4, 5, 6, 7, 8])
+    XCTAssertEqual(res.rows, [3, 4, 5, 6, 7, 8])
   }
 }

@@ -24,7 +24,7 @@ enum ReferenceRangeError: Error {
 public struct ReferenceRange: Codable, Equatable {
   public let start: CellReference
   public let end: CellReference
-  
+
   init(start: CellReference, end: CellReference) {
     self.start = start
     self.end = end
@@ -37,7 +37,7 @@ public extension ReferenceRange {
     guard members.count == 2 else {
       throw ReferenceRangeError.invalidRangeString(string)
     }
-    
+
     start = try CellReference(string: String(members[0]))
     end = try CellReference(string: String(members[1]))
   }
@@ -49,7 +49,7 @@ extension ReferenceRange {
     let value = try container.decode(String.self)
     try self.init(string: value)
   }
-  
+
   public func encode(to encoder: any Encoder) throws {
     var container = encoder.singleValueContainer()
     let ref = start.description + end.description
@@ -65,13 +65,18 @@ public extension ReferenceRange {
     reference.row <= end.row
   }
 
-  func getMatchingColumnsAndRows() -> ([ColumnReference], [UInt]) {
+  func getMatchingColumnsAndRows() -> ColumnsRowsReferences {
     let columnCount = start.column.distance(to: end.column)
     let columns: [ColumnReference] = (0...columnCount).map { index in
       start.column.advanced(by: index)
     }
 
     let rows:[UInt] = Array(start.row...end.row)
-    return (columns, rows)
+    return ColumnsRowsReferences(columns: columns, rows: rows)
   }
+}
+
+public struct ColumnsRowsReferences {
+  public let columns: [ColumnReference]
+  public let rows: [UInt]
 }
