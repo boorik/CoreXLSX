@@ -21,7 +21,7 @@ import XCTest
 final class CellQueriesTests: XCTestCase {
   // swiftlint:disable:next function_body_length
   func testDates() throws {
-    setenv("TZ", "America/New_York", 1)
+    setenv("TZ", "Europe/Luxembourg", 1)
     CFTimeZoneResetSystem()
     let cells = [
       Cell(

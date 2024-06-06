@@ -130,6 +130,7 @@ public struct Relationship: Codable, Equatable {
       """
       http://purl.oclc.org/ooxml/officeDocument/relationships/extendedProperties
       """
+    case unknown
   }
 
   /// The identifier for this entity.
@@ -144,4 +145,18 @@ public struct Relationship: Codable, Equatable {
   func path(from root: String) -> String {
     Path(target).isRoot ? target : "\(root)/\(target)"
   }
+}
+
+extension Relationship {
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        do {
+            self.type = try container.decode(Relationship.SchemaType.self, forKey: .type)
+        } catch {
+            print("Warning: unknown schema type")
+            self.type = .unknown
+        }
+        self.target = try container.decode(String.self, forKey: .target)
+    }
 }
